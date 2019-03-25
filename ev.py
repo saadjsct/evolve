@@ -1,34 +1,34 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/python3
+
 """
 Created on Thu Jun 28 19:05:38 2018
+please see README.org
 """
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os 
-import subprocess 
+import os
+import subprocess
 
 # global constants
-DNA_LOW = 0
-DNA_HIGH = 11
-DNA_LEN = 5 
-ISLANDA_TYPICAL = 8
-ISLANDB_TYPICAL = 2
+DNA_LOW = 0   # minimum DNA value
+DNA_HIGH = 11 # maximum DNA value
+DNA_LEN = 5 # how many cells in each DNA array
+ISLANDA_TYPICAL = 8  #the trait islandA demand
+ISLANDB_TYPICAL = 2  #the trait islandB demand
 INITIAL_POPULATION_NUMBER = 10
-NUMBER_OF_GENERATIONS = 15 
-MAX_POPULATION = 40000
+NUMBER_OF_GENERATIONS = 15
+MAX_POPULATION = 40000 # just to save time cause mating the whole population after 4000 will take ages
+
+# some calculation constants
 EXP = 2
-FACTOR = 1/8 
+FACTOR = 1/8
 translate = lambda rank: int((rank**EXP)*FACTOR)
 
-
-class GenderException(Exception):
-    pass
-
 class JesusException(Exception):
-    pass
-
-class NoIslandException(Exception):
+    """ raised whenever a child is porn without a father
+(this will not be raised actually its just a joke :D)
+"""
     pass
 
 def calc_rank(dna, typical):
@@ -39,30 +39,28 @@ class Animal():
     def __init__(self, island, mom=None, dad=None):
 
         if (dad is None) and (mom is None):
+            # generation zero
             self.dna = np.random.randint(DNA_LOW, DNA_HIGH, DNA_LEN)
-            self.dad = dad
-            self.mom = mom
         elif (dad is not None) and (mom is not None):
             midpoint = int(DNA_LEN/2)
             self.dna = np.append(dad.dna[:midpoint], mom.dna[midpoint:])
             random_index = np.random.randint(DNA_LEN)
             self.dna[random_index] = np.random.randint(DNA_LOW, DNA_HIGH)
         else:
+            # this will not be raised actually its just a joke :D
             raise(JesusException)
 
         if island == 'A':
             self.rank = calc_rank(self.dna, ISLANDA_TYPICAL)
         elif island == 'B':
             self.rank = calc_rank(self.dna, ISLANDB_TYPICAL)
-        else:
-            raise(NoIslandException)
 
         self.island = island
         self.dad = dad
         self.mom = mom
         self.gender = np.random.randint(2) # 0 male 1 female
-        self.power = translate(self.rank) 
-        self.time =  translate(self.rank) 
+        self.power = translate(self.rank)
+        self.time =  translate(self.rank)
 
 def get_dead_indices(population):
     dead_indices = []
@@ -84,7 +82,7 @@ def haram(female, male):
     return (male == female.dad) or (male.mom == female) \
             or ((male.mom == female.mom) and (male.dad == female.dad) and male.mom is not None)
 
-def creat_couples(females, males):
+def create_couples(females, males):
     """
     takes sorted females and males by rank k
     """
@@ -116,7 +114,7 @@ def mating_season(population):
     females = sorted(females, key = lambda f: f.rank)
     males = sorted(males, key = lambda m: m.rank)
 
-    couples = creat_couples(females, males)
+    couples = create_couples(females, males)
     babies = []
     for couple in couples:
         babies += mate(couple)
@@ -125,12 +123,12 @@ def mating_season(population):
 def get_mean_vals(populationA, populationB):
     dnaA = np.concatenate([animal.dna for animal in populationA])
     dnaB = np.concatenate([animal.dna for animal in populationB])
-    return np.mean(dnaA), np.mean(dnaB)   
+    return np.mean(dnaA), np.mean(dnaB)
 
 def plot_means(means):
         meansA = [t[0] for t in means]
         meansB = [t[1] for t in means]
-        t = list(range(i+2)) 
+        t = list(range(i+2))
 
         fig = plt.figure()
         ax = fig.add_subplot(111)
@@ -139,43 +137,41 @@ def plot_means(means):
         ax.legend()
         ax.set_xlabel('time')
         ax.set_ylabel('population DNA average')
-        ax.grid()  
+        ax.grid()
 
-        figname = f'/tmp/trial{ntrials}.png'
+        figname = f'./output/trial{ntrials}.png'
         fig.savefig(figname)
         subprocess.Popen(['xdg-open', figname])
 
 
 if __name__ == '__main__':
-    ntrials = 0 
+    ntrials = 0
     while True:
         print(f'-------------trial{ntrials}-------------')
-        
-        means = []
+
         populationA = [Animal('A') for i in range(INITIAL_POPULATION_NUMBER)]
         populationB = [Animal('B') for i in range(INITIAL_POPULATION_NUMBER)]
-        means.append(get_mean_vals(populationA, populationB))
+        means = [get_mean_vals(populationA, populationB)]
+
         print('generation zero: ')
-        print('the mean of population A dna', means[0][0]) 
+        print('the mean of population A dna', means[0][0])
         print('the mean of population B dna', means[0][1])
 
         iA, iB = 0, 0
         for i in range(NUMBER_OF_GENERATIONS):
             if len(populationA) < MAX_POPULATION:
                 mating_season(populationA)
-                iA += 1 
+                iA += 1
             if len(populationB) < MAX_POPULATION:
                 mating_season(populationB)
-                iB += 1 
+                iB += 1
             means.append(get_mean_vals(populationA, populationB))
-            
+
         ntrials += 1
 
         print(f'after {min(iA,iB)} generations: ')
-        print('the mean of population A dna', means[i][0] ) 
+        print('the mean of population A dna', means[i][0] )
         print('the mean of population B dna', means[i][1])
         print('with diff ',  means[i][0] - means[i][1])
-        
+
         plot_means(means)
-
-
