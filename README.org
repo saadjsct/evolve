@@ -198,7 +198,7 @@ def get_mean_vals(populationA, populationB):
     return np.mean(dnaA), np.mean(dnaB)
 #+end_src
 
-*** translating rank to sexual power and age
+*** translating rank to sexual power and longevity
 to estimate how long the animal will live and how many babies it will give every mating season, we will use of course the rank. the exact relation between rank and longevity can be anything as long as they are directly proportional.
 
 #+begin_src python
