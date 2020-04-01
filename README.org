@@ -6,11 +6,6 @@
 #+EXPORT_FILE_NAME: evolve 
 #+hugo_tags: projects science
 
-* why?
-  this was my first python project after hello world scripts, the thing that i really loved about python (as i came from a Matlab and mathematica background) was its mathematical capabilities with the world changing libraries of anaconda, specially being completely free as in freedom and free as in free beer as well. this time was also my first time i truly read the evolution theory, i was extremely stunned by how simple and beautiful it is, really my English is so broken to describe how i felt when i understood it, but what i can say is that i found it so simple that i can actually implement a simple model of it in python. 
-
-since this was my first python project, as i am typing this documentation now i found that there is a lot of embarrassing code if i am writing this right now i will do it much better, so please don't judge my code that much. 
-
 * basis of evolution
 
 the elegance and beauty of evolution is that it didn't introduce anything we didn't know before about nature, it just tells us that given some observable facts we should have got it very long ago.
