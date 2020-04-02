@@ -85,7 +85,7 @@ FACTOR = 1/8
 translate = lambda rank: int((rank**EXP)*FACTOR)
 
 class JesusException(Exception):
-    """ raised whenever a child is porn without a father 
+    """ raised whenever a child is born without a father 
 (this will not be raised actually its just a joke :D)
 """
     pass
