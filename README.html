@@ -1,0 +1,271 @@
+<p>h:4</p>
+<h1 id="basis-of-evolution">basis of evolution</h1>
+<p>the elegance and beauty of evolution is that it didn't introduce anything we didn't know before about nature, it just tells us that given some observable facts we should have got it very long ago.</p>
+<p>those observable facts are represented in the following sub-sections.</p>
+<h2 id="natural-pressure">natural pressure</h2>
+<p>nature always puts pressure on us, and always introduces challenges we have to overcome to survive.</p>
+<h2 id="ranking">ranking</h2>
+<p>we are not all the same in the eyes of nature, different animals are awarded or punished based on how they perform in life challenges.</p>
+<h2 id="inheritance">inheritance</h2>
+<p>any new born baby gets his traits constructed from his parent's traits, not all traits are hereditary traits though, but those don't contribute to biological evolution so they are irrelevant here</p>
+<h2 id="natural-mutations">natural mutations</h2>
+<p>the randomness salt in the gene soup.</p>
+<p>it happened many times that a child has been porn without a sexual organs or maybe deformed ones, since obviously this couldn't be inherited, it has to be a completely new gene introduced in this poor baby</p>
+<p>mutations are very crucial in the evolution mechanism, you can consider it the experimentation ground of species, a field of trying new ideas and testing them by putting them into action.</p>
+<h2 id="sexual-selection">sexual selection</h2>
+<p>if a new trait is beneficial in many ways, but not sexy enough to attract the opposite sex to reproduce new beings with this trait, it will die young. on the other hand a new trait may succeed only because it attracts the other sex regardless of how beneficial it is on other aspects.</p>
+<p>but i should say here that's sexual selection and natural selection aren't always independent, for example healthy males are more attractive in females eyes, that's because nature selected females who select those males, as those females produce healthy children</p>
+<h2 id="geographical-isolation">Geographical isolation</h2>
+<p>for two groups to develop new traits in different directions they must be physically apart, or in the jargon there must be two gene pools. this happens in nature in several ways, but the primary cause is natural disasters.</p>
+<h1 id="what-are-species">what are Species</h1>
+<p>from Wikipedia</p>
+<blockquote>
+<p>In biology, a species is the basic unit of classification and a taxonomic rank, as well as a unit of biodiversity, but it has proven difficult to find a satisfactory definition. Scientists and conservationists need a species definition which allows them to work, regardless of the theoretical difficulties</p>
+</blockquote>
+<p>species are actually just an arbitrarily chosen unit for biodiversity, or a measure of disparity or unlikeness. there is no natural distinction between differences between individuals and differences between species other than that difference between species are much more.</p>
+<h2 id="why-proving-one-trait-is-enough">why proving one trait is enough</h2>
+<p>for some reason the idiotic idea that says evolution is true inside the same specie but not true outside it has found its way into some people's mind. apparently its nothing more than a last try to keep something for god while superficially believing in evolution.</p>
+<p>by the definition in <em>the previous section </em>, if evolution is true for one trait, the process by necessity will lead to speciation.</p>
+<h1 id="reproducing-the-nature">reproducing the nature</h1>
+<p>the past sections was an introduction but in this section we will discuss the code in some detail.</p>
+<h2 id="animals">animals</h2>
+<p>what we need is some sort of a data type that will simulate the concept of animals by having the relevant attributes real animals have, such as age, some form of genetic code, parents, sexual abilities, gender, and a geographical location.</p>
+<p>you guessed it, a python class.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" title="1"></a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="co"># global constants</span></a>
+<a class="sourceLine" id="cb1-3" title="3">DNA_LOW <span class="op">=</span> <span class="dv">0</span>   <span class="co"># minimum DNA value</span></a>
+<a class="sourceLine" id="cb1-4" title="4">DNA_HIGH <span class="op">=</span> <span class="dv">11</span> <span class="co"># maximum DNA value</span></a>
+<a class="sourceLine" id="cb1-5" title="5">DNA_LEN <span class="op">=</span> <span class="dv">5</span> <span class="co"># how many cells in each DNA array</span></a>
+<a class="sourceLine" id="cb1-6" title="6">ISLANDA_TYPICAL <span class="op">=</span> <span class="dv">8</span>  <span class="co">#the trait islandA demand</span></a>
+<a class="sourceLine" id="cb1-7" title="7">ISLANDB_TYPICAL <span class="op">=</span> <span class="dv">2</span>  <span class="co">#the trait islandB demand</span></a>
+<a class="sourceLine" id="cb1-8" title="8">INITIAL_POPULATION_NUMBER <span class="op">=</span> <span class="dv">10</span></a>
+<a class="sourceLine" id="cb1-9" title="9">NUMBER_OF_GENERATIONS <span class="op">=</span> <span class="dv">15</span></a>
+<a class="sourceLine" id="cb1-10" title="10">MAX_POPULATION <span class="op">=</span> <span class="dv">40000</span> </a>
+<a class="sourceLine" id="cb1-11" title="11"><span class="co"># just to save time cause mating the whole population after 4000 will take ages</span></a>
+<a class="sourceLine" id="cb1-12" title="12"></a>
+<a class="sourceLine" id="cb1-13" title="13"><span class="co"># some calculation constants</span></a>
+<a class="sourceLine" id="cb1-14" title="14">EXP <span class="op">=</span> <span class="dv">2</span></a>
+<a class="sourceLine" id="cb1-15" title="15">FACTOR <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="dv">8</span></a>
+<a class="sourceLine" id="cb1-16" title="16">translate <span class="op">=</span> <span class="kw">lambda</span> rank: <span class="bu">int</span>((rank<span class="op">**</span>EXP)<span class="op">*</span>FACTOR)</a>
+<a class="sourceLine" id="cb1-17" title="17"></a>
+<a class="sourceLine" id="cb1-18" title="18"><span class="kw">class</span> JesusException(<span class="pp">Exception</span>):</a>
+<a class="sourceLine" id="cb1-19" title="19">    <span class="co">&quot;&quot;&quot; raised whenever a child is porn without a father </span></a>
+<a class="sourceLine" id="cb1-20" title="20"><span class="co">(this will not be raised actually its just a joke :D)</span></a>
+<a class="sourceLine" id="cb1-21" title="21"><span class="co">&quot;&quot;&quot;</span></a>
+<a class="sourceLine" id="cb1-22" title="22">    <span class="cf">pass</span></a>
+<a class="sourceLine" id="cb1-23" title="23"></a>
+<a class="sourceLine" id="cb1-24" title="24"><span class="kw">def</span> calc_rank(dna, typical):</a>
+<a class="sourceLine" id="cb1-25" title="25">    rank <span class="op">=</span> <span class="bu">sum</span>(<span class="bu">abs</span>(dna <span class="op">-</span> typical))<span class="op">/</span>DNA_LEN</a>
+<a class="sourceLine" id="cb1-26" title="26">    <span class="cf">return</span> <span class="dv">8</span><span class="op">-</span>rank</a>
+<a class="sourceLine" id="cb1-27" title="27"></a>
+<a class="sourceLine" id="cb1-28" title="28"></a>
+<a class="sourceLine" id="cb1-29" title="29"><span class="kw">class</span> Animal():</a>
+<a class="sourceLine" id="cb1-30" title="30">    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, island, mom<span class="op">=</span><span class="va">None</span>, dad<span class="op">=</span><span class="va">None</span>):</a>
+<a class="sourceLine" id="cb1-31" title="31"></a>
+<a class="sourceLine" id="cb1-32" title="32">        <span class="cf">if</span> (dad <span class="kw">is</span> <span class="va">None</span>) <span class="kw">and</span> (mom <span class="kw">is</span> <span class="va">None</span>):</a>
+<a class="sourceLine" id="cb1-33" title="33">            <span class="co"># generation zero</span></a>
+<a class="sourceLine" id="cb1-34" title="34">            <span class="va">self</span>.dna <span class="op">=</span> np.random.randint(DNA_LOW, DNA_HIGH, DNA_LEN)</a>
+<a class="sourceLine" id="cb1-35" title="35">        <span class="cf">elif</span> (dad <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>) <span class="kw">and</span> (mom <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>):</a>
+<a class="sourceLine" id="cb1-36" title="36">            midpoint <span class="op">=</span> <span class="bu">int</span>(DNA_LEN<span class="op">/</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb1-37" title="37">            <span class="va">self</span>.dna <span class="op">=</span> np.append(dad.dna[:midpoint], mom.dna[midpoint:])</a>
+<a class="sourceLine" id="cb1-38" title="38">            random_index <span class="op">=</span> np.random.randint(DNA_LEN)</a>
+<a class="sourceLine" id="cb1-39" title="39">            <span class="va">self</span>.dna[random_index] <span class="op">=</span> np.random.randint(DNA_LOW, DNA_HIGH)</a>
+<a class="sourceLine" id="cb1-40" title="40">        <span class="cf">else</span>:</a>
+<a class="sourceLine" id="cb1-41" title="41">            <span class="cf">raise</span>(JesusException)</a>
+<a class="sourceLine" id="cb1-42" title="42"></a>
+<a class="sourceLine" id="cb1-43" title="43">        <span class="cf">if</span> island <span class="op">==</span> <span class="st">&#39;A&#39;</span>:</a>
+<a class="sourceLine" id="cb1-44" title="44">            <span class="va">self</span>.rank <span class="op">=</span> calc_rank(<span class="va">self</span>.dna, ISLANDA_TYPICAL)</a>
+<a class="sourceLine" id="cb1-45" title="45">        <span class="cf">elif</span> island <span class="op">==</span> <span class="st">&#39;B&#39;</span>:</a>
+<a class="sourceLine" id="cb1-46" title="46">            <span class="va">self</span>.rank <span class="op">=</span> calc_rank(<span class="va">self</span>.dna, ISLANDB_TYPICAL)</a>
+<a class="sourceLine" id="cb1-47" title="47"></a>
+<a class="sourceLine" id="cb1-48" title="48">        <span class="va">self</span>.island <span class="op">=</span> island</a>
+<a class="sourceLine" id="cb1-49" title="49">        <span class="va">self</span>.dad <span class="op">=</span> dad</a>
+<a class="sourceLine" id="cb1-50" title="50">        <span class="va">self</span>.mom <span class="op">=</span> mom</a>
+<a class="sourceLine" id="cb1-51" title="51">        <span class="va">self</span>.gender <span class="op">=</span> np.random.randint(<span class="dv">2</span>) <span class="co"># 0 male 1 female</span></a>
+<a class="sourceLine" id="cb1-52" title="52">        <span class="va">self</span>.power <span class="op">=</span> translate(<span class="va">self</span>.rank)</a>
+<a class="sourceLine" id="cb1-53" title="53">        <span class="va">self</span>.time <span class="op">=</span>  translate(<span class="va">self</span>.rank)</a>
+<a class="sourceLine" id="cb1-54" title="54"></a></code></pre></div>
+<p>first we define some global constants (not all of those makes sense just yet but they will soon).</p>
+<p>next we define the Jesus exception and the calc<sub>rank</sub> function. see <em>DNA and ranking</em> .</p>
+<p>the animal class code is mostly straight forward except for few points:</p>
+<ul>
+<li>we permit that an animal can exist without parents because we have to start with initial population which has animals of self.mom and self.dad equals None</li>
+<li>the animal parents self.mom and self.dad are both of type animals and have the same set of attributes (every one of them has his self.mom and self.dad).</li>
+<li>self.power represents sexual power self.time represent longevity (yeah poor naming).</li>
+<li>island A and island B represent the geographical isolation. see<em> reproducing Geographical isolation</em>.</li>
+<li>there is things i will explain later in this document sometimes you will need to get back here to see the class definition, i will points to this section whenever needed.</li>
+</ul>
+<h3 id="dna-and-ranking">DNA and ranking</h3>
+<p>in reality DNA can be simplified as a list of numbers, and that's what we will do exactly, we will assign every animal an attribute self.dna which holds bunch of numbers, this list can be of any length theoretically but it is constrained by the computational power you have. for me i found that a list of 5 will output in a sensible time, if you have a more powerful machine you can increase DNA<sub>LEN</sub> to the value you want.</p>
+<p>the range of numbers any cell can holds can be arbitrarily chosen as well. i choose a range from 0 to 11</p>
+<p>the picture here is as follows:</p>
+<p>every animal has associated list. say animalA has DNA [1, 4, 3, 1, 9] and animalB has DNA [7, 3, 5, 8, 8]. based on those numbers we will compute how this animal is functioning, but before that we have to attach a meaning for those number, or way to say whether [1, 4, 3, 1, 9] will perform more than [7, 3, 5, 8, 8]? and why?. so we have to introduce the rank</p>
+<p>we can choose any mathematical relation between those number to compute the rank, but for the sake of simplification we will say that for a certain environment there is a typical number for example 7, and based on how far each cell from that number is, we will decide how this animal will perform.</p>
+<p>so based on that definition and using the previous animal examples A and B, animalB will perform better than animalA in that environment because [7, 3, 5, 8, 8] has cells which are closer to 7 (sum of differences) than the cells of [1, 4, 3, 1, 9]. we represent that mathematically by giving animalB a rank higher than animalA</p>
+<p>if there is another environment that demand the number 5, animalA will perform better therefor it will have higher rank than animalB. its important to understand that the rank is local to the environment, there is no such thing as an absolute rank (as in real life).</p>
+<p>here is the definition of calc<sub>rank</sub> function:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">def</span> calc_rank(dna, typical):</a>
+<a class="sourceLine" id="cb2-2" title="2">    rank <span class="op">=</span> <span class="bu">sum</span>(<span class="bu">abs</span>(dna <span class="op">-</span> typical))<span class="op">/</span>DNA_LEN</a>
+<a class="sourceLine" id="cb2-3" title="3">    <span class="cf">return</span> <span class="dv">8</span><span class="op">-</span>rank</a></code></pre></div>
+<p>this equation just translate the sentence "how far the cells are from the typical number" to a number.</p>
+<h3 id="reproducing-mutations">reproducing mutations</h3>
+<p>lets look closer to this code snippet</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb3-1" title="1"><span class="cf">elif</span> (dad <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>) <span class="kw">and</span> (mom <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>):</a>
+<a class="sourceLine" id="cb3-2" title="2">    midpoint <span class="op">=</span> <span class="bu">int</span>(DNA_LEN<span class="op">/</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb3-3" title="3">    <span class="va">self</span>.dna <span class="op">=</span> np.append(dad.dna[:midpoint], mom.dna[midpoint:])</a>
+<a class="sourceLine" id="cb3-4" title="4">    random_index <span class="op">=</span> np.random.randint(DNA_LEN)</a>
+<a class="sourceLine" id="cb3-5" title="5">    <span class="va">self</span>.dna[random_index] <span class="op">=</span> np.random.randint(DNA_LOW, DNA_HIGH)</a></code></pre></div>
+<p>this code is responsible for computing the new born dna from the dad's and mom's by taking half the mom's dna and half of the dad's and attaching them end to end, pretty much exactly what happens in real life.</p>
+<p>but after that it takes one cell and randomly alter it, to emulate the mutation process discussed in <em>natural mutations</em>.</p>
+<h3 id="reproducing-geographical-isolation">reproducing Geographical isolation</h3>
+<p>for the evolution process to take place there must be a geographical or environmental isolation, that's why i defined a self.island attribute to store the home of each animal, the island variable is given to the animal constructor at creation time.</p>
+<p>every island has its own typical value, hence the constants ISLANDA<sub>TYPICAL</sub>=8 and ISLANDB<sub>TYPICAL</sub>=2.</p>
+<h3 id="initial-population-and-mean">initial population and mean</h3>
+<p>the first thing we do in every trial we initiate a population of size INITIAL<sub>POPULATIONNUMBER</sub>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" title="1">populationA <span class="op">=</span> [Animal(<span class="st">&#39;A&#39;</span>) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(INITIAL_POPULATION_NUMBER)]</a>
+<a class="sourceLine" id="cb4-2" title="2">populationB <span class="op">=</span> [Animal(<span class="st">&#39;B&#39;</span>) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(INITIAL_POPULATION_NUMBER)]</a>
+<a class="sourceLine" id="cb4-3" title="3">means <span class="op">=</span> [get_mean_vals(populationA, populationB)]</a></code></pre></div>
+<p>then calculate the mean values using the function get<sub>meanvals</sub></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">def</span> get_mean_vals(populationA, populationB):</a>
+<a class="sourceLine" id="cb5-2" title="2">    dnaA <span class="op">=</span> np.concatenate([animal.dna <span class="cf">for</span> animal <span class="kw">in</span> populationA])</a>
+<a class="sourceLine" id="cb5-3" title="3">    dnaB <span class="op">=</span> np.concatenate([animal.dna <span class="cf">for</span> animal <span class="kw">in</span> populationB])</a>
+<a class="sourceLine" id="cb5-4" title="4">    <span class="cf">return</span> np.mean(dnaA), np.mean(dnaB)</a></code></pre></div>
+<h3 id="translating-rank-to-sexual-power-and-longevity">translating rank to sexual power and longevity</h3>
+<p>to estimate how long the animal will live and how many babies it will give every mating season, we will use of course the rank. the exact relation between rank and longevity can be anything as long as they are directly proportional.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb6-1" title="1"><span class="co"># some calculation constants</span></a>
+<a class="sourceLine" id="cb6-2" title="2">EXP <span class="op">=</span> <span class="dv">2</span></a>
+<a class="sourceLine" id="cb6-3" title="3">FACTOR <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="dv">8</span></a>
+<a class="sourceLine" id="cb6-4" title="4">translate <span class="op">=</span> <span class="kw">lambda</span> rank: <span class="bu">int</span>((rank<span class="op">**</span>EXP)<span class="op">*</span>FACTOR)</a></code></pre></div>
+<p>i used an exponential relation to speed up things a little bit, cause again its a matter of computational power.</p>
+<p>and in the animal class definition</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb7-1" title="1"><span class="va">self</span>.power <span class="op">=</span> translate(<span class="va">self</span>.rank)</a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="va">self</span>.time <span class="op">=</span>  translate(<span class="va">self</span>.rank)</a></code></pre></div>
+<h2 id="mating-and-mating-season">mating and mating season</h2>
+<p>the mating function is fairly straight forward.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">def</span> mate(couple):</a>
+<a class="sourceLine" id="cb8-2" title="2">    mama,papa <span class="op">=</span> couple</a>
+<a class="sourceLine" id="cb8-3" title="3">    babies_number <span class="op">=</span> <span class="bu">min</span>(mama.power, papa.power)</a>
+<a class="sourceLine" id="cb8-4" title="4">    <span class="cf">return</span> [Animal(mama.island, mom<span class="op">=</span>mama, dad<span class="op">=</span>papa) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(babies_number)]</a></code></pre></div>
+<p>couple is a tuple of male and a female. there is a function called create<sub>couples</sub> that takes a list of males and a list of females and return a list of couples. this function discussed in the next section.</p>
+<h3 id="reproducing-sexual-selection">reproducing sexual selection</h3>
+<p>i really didn't simulate the independent sexual selection, i reused the rank to sort males and females and make the high ranked females choose the high ranked males. maybe sometime in the future i will write a separate rank for sexual selection and see how things will go.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">def</span> create_couples(females, males):</a>
+<a class="sourceLine" id="cb9-2" title="2">    <span class="co">&quot;&quot;&quot; takes sorted females and males by rank k &quot;&quot;&quot;</span></a>
+<a class="sourceLine" id="cb9-3" title="3">    couples  <span class="op">=</span> []</a>
+<a class="sourceLine" id="cb9-4" title="4">    married_men <span class="op">=</span> <span class="bu">set</span>()</a>
+<a class="sourceLine" id="cb9-5" title="5">    <span class="cf">for</span> female <span class="kw">in</span> females:</a>
+<a class="sourceLine" id="cb9-6" title="6">        <span class="cf">for</span> male <span class="kw">in</span> males:</a>
+<a class="sourceLine" id="cb9-7" title="7">            <span class="cf">if</span> (<span class="kw">not</span> haram(female,male))<span class="kw">and</span>(male <span class="kw">not</span> <span class="kw">in</span> married_men) :</a>
+<a class="sourceLine" id="cb9-8" title="8">                couples.append((female,male))</a>
+<a class="sourceLine" id="cb9-9" title="9">                married_men.add(male)</a>
+<a class="sourceLine" id="cb9-10" title="10">                <span class="cf">break</span></a>
+<a class="sourceLine" id="cb9-11" title="11">    <span class="cf">return</span> couples</a></code></pre></div>
+<p>the haram function returns true if the males or females are direct relatives.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">def</span> haram(female, male):</a>
+<a class="sourceLine" id="cb10-2" title="2">    <span class="cf">return</span> (male <span class="op">==</span> female.dad) <span class="kw">or</span> (male.mom <span class="op">==</span> female) <span class="op">\</span></a>
+<a class="sourceLine" id="cb10-3" title="3">            <span class="kw">or</span> ((male.mom <span class="op">==</span> female.mom) <span class="kw">and</span> <span class="op">\</span></a>
+<a class="sourceLine" id="cb10-4" title="4">                  (male.dad <span class="op">==</span> female.dad) <span class="kw">and</span> male.mom <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>)</a></code></pre></div>
+<h3 id="mating-season">mating season</h3>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">def</span> mating_season(population):</a>
+<a class="sourceLine" id="cb11-2" title="2">    kill_whos_time_has_come(population)</a>
+<a class="sourceLine" id="cb11-3" title="3">    decrement_time(population)</a>
+<a class="sourceLine" id="cb11-4" title="4">    females <span class="op">=</span> [ animal <span class="cf">for</span> animal <span class="kw">in</span> population <span class="cf">if</span> animal.gender]</a>
+<a class="sourceLine" id="cb11-5" title="5">    males <span class="op">=</span> [ animal <span class="cf">for</span> animal <span class="kw">in</span> population <span class="cf">if</span> <span class="kw">not</span> animal.gender]</a>
+<a class="sourceLine" id="cb11-6" title="6"></a>
+<a class="sourceLine" id="cb11-7" title="7">    females <span class="op">=</span> <span class="bu">sorted</span>(females, key <span class="op">=</span> <span class="kw">lambda</span> f: f.rank)</a>
+<a class="sourceLine" id="cb11-8" title="8">    males <span class="op">=</span> <span class="bu">sorted</span>(males, key <span class="op">=</span> <span class="kw">lambda</span> m: m.rank)</a>
+<a class="sourceLine" id="cb11-9" title="9"></a>
+<a class="sourceLine" id="cb11-10" title="10">    couples <span class="op">=</span> create_couples(females, males)</a>
+<a class="sourceLine" id="cb11-11" title="11">    babies <span class="op">=</span> []</a>
+<a class="sourceLine" id="cb11-12" title="12">    <span class="cf">for</span> couple <span class="kw">in</span> couples:</a>
+<a class="sourceLine" id="cb11-13" title="13">        babies <span class="op">+=</span> mate(couple)</a>
+<a class="sourceLine" id="cb11-14" title="14">    population <span class="op">+=</span> babies</a></code></pre></div>
+<p>the mating<sub>season</sub> function takes the whole population and does three things:</p>
+<ol>
+<li>kills who's time has come.</li>
+<li>decrements time of the whole population</li>
+<li>separates the population into males and females</li>
+<li>sort males and females by rank</li>
+<li>create couples using function create<sub>couples</sub></li>
+<li>mates every couple</li>
+<li>adds the resulting output to the population</li>
+</ol>
+<h3 id="the-main-loop">the main loop</h3>
+<p>the main logic of the program is a loop of infinite trials, in every trial we make the following:</p>
+<ol>
+<li>construct the initial population.</li>
+<li>do some printing to stdout.</li>
+<li>keeps track of how the mean values changes over time.</li>
+<li>calls the mating<sub>season</sub> function for every island NUMBER<sub>OFGENERATIONS</sub> times and stops whenever the population exceeded MAX<sub>POPULATION</sub>.</li>
+<li>produces the graphical plots.</li>
+</ol>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb12-1" title="1"><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&#39;__main__&#39;</span>:</a>
+<a class="sourceLine" id="cb12-2" title="2">    ntrials <span class="op">=</span> <span class="dv">0</span></a>
+<a class="sourceLine" id="cb12-3" title="3">    <span class="cf">while</span> <span class="va">True</span>:</a>
+<a class="sourceLine" id="cb12-4" title="4">        <span class="bu">print</span>(<span class="ss">f&#39;-------------trial</span><span class="sc">{</span>ntrials<span class="sc">}</span><span class="ss">-------------&#39;</span>)</a>
+<a class="sourceLine" id="cb12-5" title="5"></a>
+<a class="sourceLine" id="cb12-6" title="6">        populationA <span class="op">=</span> [Animal(<span class="st">&#39;A&#39;</span>) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(INITIAL_POPULATION_NUMBER)]</a>
+<a class="sourceLine" id="cb12-7" title="7">        populationB <span class="op">=</span> [Animal(<span class="st">&#39;B&#39;</span>) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(INITIAL_POPULATION_NUMBER)]</a>
+<a class="sourceLine" id="cb12-8" title="8">        means <span class="op">=</span> [get_mean_vals(populationA, populationB)]</a>
+<a class="sourceLine" id="cb12-9" title="9"></a>
+<a class="sourceLine" id="cb12-10" title="10">        <span class="bu">print</span>(<span class="st">&#39;generation zero: &#39;</span>)</a>
+<a class="sourceLine" id="cb12-11" title="11">        <span class="bu">print</span>(<span class="st">&#39;the mean of population A dna&#39;</span>, means[<span class="dv">0</span>][<span class="dv">0</span>])</a>
+<a class="sourceLine" id="cb12-12" title="12">        <span class="bu">print</span>(<span class="st">&#39;the mean of population B dna&#39;</span>, means[<span class="dv">0</span>][<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb12-13" title="13"></a>
+<a class="sourceLine" id="cb12-14" title="14">        iA, iB <span class="op">=</span> <span class="dv">0</span>, <span class="dv">0</span></a>
+<a class="sourceLine" id="cb12-15" title="15">        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(NUMBER_OF_GENERATIONS):</a>
+<a class="sourceLine" id="cb12-16" title="16">            <span class="cf">if</span> <span class="bu">len</span>(populationA) <span class="op">&lt;</span> MAX_POPULATION:</a>
+<a class="sourceLine" id="cb12-17" title="17">                mating_season(populationA)</a>
+<a class="sourceLine" id="cb12-18" title="18">                iA <span class="op">+=</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb12-19" title="19">            <span class="cf">if</span> <span class="bu">len</span>(populationB) <span class="op">&lt;</span> MAX_POPULATION:</a>
+<a class="sourceLine" id="cb12-20" title="20">                mating_season(populationB)</a>
+<a class="sourceLine" id="cb12-21" title="21">                iB <span class="op">+=</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb12-22" title="22">            means.append(get_mean_vals(populationA, populationB))</a>
+<a class="sourceLine" id="cb12-23" title="23"></a>
+<a class="sourceLine" id="cb12-24" title="24">        ntrials <span class="op">+=</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb12-25" title="25"></a>
+<a class="sourceLine" id="cb12-26" title="26">        <span class="bu">print</span>(<span class="ss">f&#39;after </span><span class="sc">{</span><span class="bu">min</span>(iA,iB)<span class="sc">}</span><span class="ss"> generations: &#39;</span>)</a>
+<a class="sourceLine" id="cb12-27" title="27">        <span class="bu">print</span>(<span class="st">&#39;the mean of population A dna&#39;</span>, means[i][<span class="dv">0</span>] )</a>
+<a class="sourceLine" id="cb12-28" title="28">        <span class="bu">print</span>(<span class="st">&#39;the mean of population B dna&#39;</span>, means[i][<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb12-29" title="29">        <span class="bu">print</span>(<span class="st">&#39;with diff &#39;</span>,  means[i][<span class="dv">0</span>] <span class="op">-</span> means[i][<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb12-30" title="30"></a>
+<a class="sourceLine" id="cb12-31" title="31">        plot_means(means)</a></code></pre></div>
+<h1 id="output">output</h1>
+<p>running the program on my machine for four trails outputted the following</p>
+<pre class="example"><code>-------------trial0-------------
+generation zero: 
+the mean of population A DNA 4.84
+the mean of population B DNA 5.02
+after 11 generations: 
+the mean of population A DNA 6.290029719380465
+the mean of population B DNA 3.46341901890929
+with diff  2.826610700471175
+-------------trial1-------------
+generation zero: 
+the mean of population A DNA 5.6
+the mean of population B DNA 4.42
+after 10 generations: 
+the mean of population A DNA 6.393710352525346
+the mean of population B DNA 3.8421905942027306
+with diff  2.5515197583226157
+-------------trial2-------------
+generation zero: 
+the mean of population A DNA 4.54
+the mean of population B DNA 4.34
+after 11 generations: 
+the mean of population A DNA 6.22569350853549
+the mean of population B DNA 3.8069981517701734
+with diff  2.4186953567653164
+-------------trial3-------------
+generation zero: 
+the mean of population A DNA 4.98
+the mean of population B DNA 4.98
+after 12 generations: 
+the mean of population A DNA 6.239204199278249
+the mean of population B DNA 3.901722968389635
+with diff  2.337481230888614
+</code></pre>
+<p>here we clearly see that the mean value of DNA cells in the initial population is approximately the same across both islands, but by letting them reproduce for a number of generations the means in islandA (which demands cells close to 8) shifted towards 8, while means in islandB (which demands 2) shifted towards 2.</p>
+<p>plots of those trials gives a better picture of how the means change overtime rather than comparing the initial and final means.</p>
+<p>here are plots of some trials.</p>
+<p><img src="images/trial1.png" /> <img src="images/trial2.png" /> <img src="images/trial3.png" /> <img src="images/trial5.png" /> <img src="images/trial6.png" /> <img src="images/trial7.png" /></p>
